@@ -1,0 +1,15 @@
+{
+  "type": "module",
+  "scripts": {
+    "producer": "node src/producer.js",
+    "consumer": "node src/consumer.js",
+    "wikimedia-consumer": "node src/wikimedia-consumer.js",
+    "wikimedia-producer": "node src/wikimedia-producer.js"
+  },
+  "dependencies": {
+    "eventsource": "^2.0.2",
+    "kafkajs": "^2.2.4",
+    "kafkajs-snappy": "^1.1.0",
+    "winston": "^3.11.0"
+  }
+}
