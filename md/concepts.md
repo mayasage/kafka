@@ -1727,3 +1727,35 @@ Log compaction `log.cleanup.policy=compact` is impacted by:
 
 - **Producer-side**, must increase the max request size
   - `max.request.size=10485880`
+
+## Brokers & Clusters
+
+Depending on the specific hardware and its performance characteristics, a single
+broker can easily handle thousands of partitions and millions of messages per
+second.
+
+Kafka brokers are designed to operate as part of a *cluster*.
+Within a cluster of brokers, one broker will also function as the cluster
+*controller* (elected automatically from the live members of the cluster).
+
+All consumers and producers operating on that partition must connect to the
+*leader*.
+
+Kafka brokers are configured with a default retention setting for topics, either
+retaining messages for some period of time (e.g., 7 days) or until the topic
+reaches a certain size in bytes (e.g., 1 GB).
+Individual topics can also be configured with their own retention settings so
+that messages are stored for only as long as they are useful.
+Topics can also be configured as *log compacted*, which means that Kafka will
+retain only the last message produced with a specific key. This can be useful
+for changelog-type data, where only the last update is interesting.
+
+The replication mechanisms within the Kafka clusters are designed only to work
+within a single cluster, not between multiple clusters.
+
+The Kafka project includes a tool called *MirrorMaker*, used for this purpose.
+At its core, MirrorMaker is simply a Kafka consumer and producer, linked
+together with a queue. Messages are consumed from one Kafka cluster and produced
+for another.
+
+![multiple_datacenter_architecture](./pics/multiple_datacenter_architecture.png)
